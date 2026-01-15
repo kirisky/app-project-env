@@ -15,7 +15,7 @@ spec:
     helm:
       valuesObject:
         clusterName: "dev-cluster"
-        location: "eastus2"
+        location: "westus2"
         subscriptionID: "22059fa0-ac54-4ff6-bd67-9175610ebeda"
         clientID: "5c0f54fe-fb23-49db-8a82-28d4c98c2d4f"
         tenantID: "432692cb-cfc7-4dbb-a78a-51090fd5b6aa"
@@ -32,7 +32,7 @@ spec:
             enableFIPS: false
             enableNodePublicIP: false
             enableUltraSSD: false
-            maxCount: 3
+            maxCount: 1
             minCount: 1
             mode: System
             osSKU: AzureLinux
