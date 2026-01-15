@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "dev-cluster"
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: 'https://mboersma.github.io/cluster-api-charts'
+    chart: azure-aks-aso
+    targetRevision: v0.4.3
+    helm:
+      valuesObject:
+        clusterName: "dev-cluster"
+        location: "eastus2"
+        subscriptionID: "22059fa0-ac54-4ff6-bd67-9175610ebeda"
+        clientID: "5c0f54fe-fb23-49db-8a82-28d4c98c2d4f"
+        tenantID: "432692cb-cfc7-4dbb-a78a-51090fd5b6aa"
+        authMode: "workloadidentity"
+        kubernetesVersion: v1.33.5
+        clusterNetwork: "overlay"
+        withClusterClass: true
+        withClusterTopology: true
+        managedMachinePoolSpecs:
+          pool0:
+            count: 1
+            enableAutoScaling: true
+            enableEncryptionAtHost: false
+            enableFIPS: false
+            enableNodePublicIP: false
+            enableUltraSSD: false
+            maxCount: 3
+            minCount: 1
+            mode: System
+            osSKU: AzureLinux
+            vmSize: Standard_D2S_v4
+            type: VirtualMachineScaleSets
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: -1
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 10m
